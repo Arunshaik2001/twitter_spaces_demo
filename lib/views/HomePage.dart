@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -77,12 +76,9 @@ class HomePage extends StatelessWidget {
 
   Future<bool> getPermissions() async {
     if (Platform.isIOS) return true;
-    await Permission.camera.request();
     await Permission.microphone.request();
+    await Permission.bluetoothConnect.request();
 
-    while ((await Permission.camera.isDenied)) {
-      await Permission.camera.request();
-    }
     while ((await Permission.microphone.isDenied)) {
       await Permission.microphone.request();
     }

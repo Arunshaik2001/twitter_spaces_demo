@@ -7,6 +7,4 @@ class TwitterSpace{
 
   TwitterSpace(this.title, this.totalListening, this.hostName);
 
-
-
 }

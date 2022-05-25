@@ -15,7 +15,7 @@ class TwitterSpaceCardWidget extends StatelessWidget {
     Colors.purpleAccent
   ];
 
-  var rng = Random();
+  final rng = Random();
 
   @override
   Widget build(BuildContext context) {

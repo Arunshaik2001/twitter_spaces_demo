@@ -1,17 +1,11 @@
-
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hmssdk_flutter/hmssdk_flutter.dart';
 
 import '../models/User.dart';
 import '../services/RoomService.dart';
-import '../views/HomePage.dart';
 
 class RoomController extends GetxController
     implements HMSUpdateListener, HMSActionResultListener {
-
-
-
   List<User> usersList = <User>[].obs;
 
   RxBool isLocalAudioOff = false.obs;
@@ -23,34 +17,25 @@ class RoomController extends GetxController
 
   HMSSDK hmsSdk = HMSSDK();
 
-
-
   @override
   void onInit() async {
-
     joinMeeting();
 
     super.onInit();
   }
 
-  void joinMeeting() async{
-
-
+  void joinMeeting() async {
     hmsSdk.addUpdateListener(listener: this);
 
     hmsSdk.build();
 
     String userName = name;
 
-    List<String?>? token = await RoomService().getToken(user: userName, room: url);
-
-
-
+    List<String?>? token =
+        await RoomService().getToken(user: userName, room: url);
 
     if (token == null) return;
     if (token[0] == null) return;
-
-
 
     HMSConfig config = HMSConfig(
       authToken: token[0]!,
@@ -59,8 +44,6 @@ class RoomController extends GetxController
     );
 
     hmsSdk.join(config: config);
-
-
   }
 
   @override
@@ -75,9 +58,7 @@ class RoomController extends GetxController
   }
 
   @override
-  void onJoin({required HMSRoom room}) {
-
-  }
+  void onJoin({required HMSRoom room}) {}
 
   @override
   void onMessage({required HMSMessage message}) {
@@ -122,24 +103,17 @@ class RoomController extends GetxController
       {required HMSTrack track,
       required HMSTrackUpdate trackUpdate,
       required HMSPeer peer}) {
-    // isLocalAudioOn.value = isAudioOnPreview.value;
-    // isLocalAudioOn.refresh();
-    //
-    // isLocalVideoOn.value = isVideoOnPreview.value;
-    // isLocalVideoOn.refresh();
 
     if (peer.isLocal) {
-
       if (track.kind == HMSTrackKind.kHMSTrackKindAudio) {
-        if(isLocalAudioOff.value != track.isMute){
+        if (isLocalAudioOff.value != track.isMute) {
           isLocalAudioOff.toggle();
         }
       }
-
     }
 
     if (track.kind == HMSTrackKind.kHMSTrackKindAudio) {
-      User user = User(track as HMSAudioTrack,peer);
+      User user = User(track as HMSAudioTrack, peer);
 
       if (!usersList.contains(user)) {
         usersList.add(user);
@@ -153,15 +127,25 @@ class RoomController extends GetxController
 
   @override
   void onUpdateSpeakers({required List<HMSSpeaker> updateSpeakers}) {
-    // if(updateSpeakers.isEmpty)
-    //   return;
-    // HMSSpeaker hmsSpeaker = updateSpeakers[0];
-    // int userIndex = usersList.indexWhere((element) => element.peer.peerId == hmsSpeaker.peer.peerId);
-    // User user = usersList[userIndex];
-    // user.isSpeaking = true;
-    // print("onUpdateSpeakers ${userIndex}");
-    // usersList.removeAt(userIndex);
-    // usersList.insert(userIndex, user);
+    if (updateSpeakers.isEmpty) {
+      int userIndex = usersList.indexWhere((element) => element.isSpeaking);
+      if(userIndex == -1) {
+        return;
+      }
+      User user = usersList[userIndex];
+      user.isSpeaking = false;
+      usersList.removeAt(userIndex);
+      usersList.insert(userIndex, user);
+      return;
+    }
+    HMSSpeaker hmsSpeaker = updateSpeakers[0];
+    int userIndex = usersList
+        .indexWhere((element) => element.peer.peerId == hmsSpeaker.peer.peerId);
+    User user = usersList[userIndex];
+    user.isSpeaking = true;
+    print("onUpdateSpeakers ${userIndex}");
+    usersList.removeAt(userIndex);
+    usersList.insert(userIndex, user);
   }
 
   void leaveMeeting() async {
@@ -174,7 +158,6 @@ class RoomController extends GetxController
       isLocalAudioOff.toggle();
     }
   }
-
 
   @override
   void onException(
@@ -197,12 +180,18 @@ class RoomController extends GetxController
   }
 
   @override
-  void onLocalAudioStats({required HMSLocalAudioStats hmsLocalAudioStats, required HMSLocalAudioTrack track, required HMSPeer peer}) {
+  void onLocalAudioStats(
+      {required HMSLocalAudioStats hmsLocalAudioStats,
+      required HMSLocalAudioTrack track,
+      required HMSPeer peer}) {
     // TODO: implement onLocalAudioStats
   }
 
   @override
-  void onLocalVideoStats({required HMSLocalVideoStats hmsLocalVideoStats, required HMSLocalVideoTrack track, required HMSPeer peer}) {
+  void onLocalVideoStats(
+      {required HMSLocalVideoStats hmsLocalVideoStats,
+      required HMSLocalVideoTrack track,
+      required HMSPeer peer}) {
     // TODO: implement onLocalVideoStats
   }
 
@@ -212,12 +201,18 @@ class RoomController extends GetxController
   }
 
   @override
-  void onRemoteAudioStats({required HMSRemoteAudioStats hmsRemoteAudioStats, required HMSRemoteAudioTrack track, required HMSPeer peer}) {
+  void onRemoteAudioStats(
+      {required HMSRemoteAudioStats hmsRemoteAudioStats,
+      required HMSRemoteAudioTrack track,
+      required HMSPeer peer}) {
     // TODO: implement onRemoteAudioStats
   }
 
   @override
-  void onRemoteVideoStats({required HMSRemoteVideoStats hmsRemoteVideoStats, required HMSRemoteVideoTrack track, required HMSPeer peer}) {
+  void onRemoteVideoStats(
+      {required HMSRemoteVideoStats hmsRemoteVideoStats,
+      required HMSRemoteVideoTrack track,
+      required HMSPeer peer}) {
     // TODO: implement onRemoteVideoStats
   }
 }

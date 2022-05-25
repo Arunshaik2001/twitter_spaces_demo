@@ -1,10 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import 'package:twitter_spaces_demo/controllers/RoomController.dart';
-import 'package:twitter_spaces_demo/models/User.dart';
 
 class UserAvatar extends StatelessWidget {
   final int index;
@@ -24,9 +21,14 @@ class UserAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<RoomController>(builder: (controller) {
-      print("IsVideoOn ${controller.usersList[index].isSpeaking}");
-      //User user = controller.usersList[index];
-      return SizedBox(
+      return Container(
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              border: Border.all(
+                  width: 5,
+                  color: controller.usersList[index].isSpeaking
+                      ? Colors.blueAccent
+                      : Colors.transparent)),
           height: 500.0,
           width: 300.0,
           child: Column(

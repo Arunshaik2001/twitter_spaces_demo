@@ -8,11 +8,10 @@ import 'package:twitter_spaces_demo/views/UserAvatar.dart';
 import '../controllers/RoomController.dart';
 
 class RoomWidget extends StatelessWidget {
-  late RoomController roomController;
+  late final RoomController roomController;
   final String name;
 
   RoomWidget({required this.name, Key? key}) : super(key: key) {
-    print("RoomWidget ${name}");
     roomController = Get.put(RoomController(Constant.defaultRoomID, name));
   }
 
@@ -55,7 +54,7 @@ class RoomWidget extends StatelessWidget {
                 height: 40.0,
               ),
               Container(
-                padding: EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.only(left: 8.0),
                 child: GestureDetector(
                     onTap: () {
                       roomController.leaveMeeting();
@@ -103,11 +102,8 @@ class RoomWidget extends StatelessWidget {
             ],
           ),
           bottomNavigationBar: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                width: 20.0,
-              ),
               GetX<RoomController>(builder: (controller) {
                 return GestureDetector(
                     onTap: () {
@@ -120,33 +116,6 @@ class RoomWidget extends StatelessWidget {
                       size: 40.0,
                     ));
               }),
-              const SizedBox(
-                width: 150.0,
-              ),
-              const Icon(
-                Icons.people,
-                size: 30.0,
-                color: Colors.black54,
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
-              const Icon(
-                Icons.thumb_up,
-                size: 30.0,
-                color: Colors.black54,
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
-              const Icon(
-                Icons.share,
-                size: 30.0,
-                color: Colors.black54,
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
             ],
           ),
         ),
