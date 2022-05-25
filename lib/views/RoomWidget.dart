@@ -75,7 +75,7 @@ class RoomWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: const Text(
                     "Building a Twitter Spaces Clone with Flutter 100ms SDK and Getx",
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
