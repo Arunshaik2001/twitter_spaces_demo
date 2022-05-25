@@ -28,15 +28,15 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Get.defaultDialog(
                       title: "Join Space",
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.white,
                       titleStyle: const TextStyle(color: Colors.white),
                       middleTextStyle: const TextStyle(color: Colors.white),
                       textConfirm: "Confirm",
                       textCancel: "Cancel",
-                      cancelTextColor: Colors.white,
+                      cancelTextColor: Colors.black,
                       confirmTextColor: Colors.white,
                       buttonColor: Colors.red,
-                      radius: 50,
+                      radius: 20,
                       onConfirm: () async{
                         if (!(GetUtils.isBlank(
                                 nameTextEditingController.text) ??
@@ -55,7 +55,6 @@ class HomePage extends StatelessWidget {
                         child: TextField(
                           controller: nameTextEditingController,
                           decoration: const InputDecoration(
-                            border: InputBorder.none,
                             hintText: 'Enter Your Name',
                           ),
                         ),
